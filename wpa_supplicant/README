@@ -1,3 +1,7 @@
+术语：
+802.11i
+Linux wireless extensions
+
 wpa_supplicant
 ==============
 
@@ -5,7 +9,7 @@ Copyright (c) 2003-2019, Jouni Malinen <j@w1.fi> and contributors
 All Rights Reserved.
 
 This program is licensed under the BSD license (the one with
-advertisement clause removed).
+advertisement clause removed).去掉了广告条款
 
 If you are submitting changes to the project, please see CONTRIBUTIONS
 file for more instructions.
@@ -49,7 +53,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Features
 --------
-
+802.11i: 无线安全标准, WPA 是其子集, 规定了 802.1x 认真和密钥管理方式。
 Supported WPA/IEEE 802.11i features:
 - WPA-PSK ("WPA-Personal")
 - WPA with EAP (e.g., with RADIUS authentication server) ("WPA-Enterprise")
@@ -147,7 +151,9 @@ added in the future. See developer's documentation
 design of wpa_supplicant and porting to other drivers. One main goal
 is to add full WPA/WPA2 support to Linux wireless extensions to allow
 new drivers to be supported without having to implement new
-driver-specific interface code in wpa_supplicant.
+driver-specific interface code in wpa_supplicant.(一个主要的目标是添加完整的
+ WPA/WPA2 支持到  Linux 无线扩展中，来允许 wpa_supplicant 支持新的驱动而不需
+ 要实现特定的接口)
 
 Optional libraries for layer2 packet processing:
 - libpcap (tested with 0.7.2, most relatively recent versions assumed to work,
@@ -158,7 +164,7 @@ Optional libraries for layer2 packet processing:
 
 These libraries are _not_ used in the default Linux build. Instead,
 internal Linux specific implementation is used. libpcap/libdnet are
-more portable and they can be used by adding CONFIG_L2_PACKET=pcap into
+more portable(更方便) and they can be used by adding CONFIG_L2_PACKET=pcap into
 .config. They may also be selected automatically for other operating
 systems. In case of Windows builds, WinPcap is used by default
 (CONFIG_L2_PACKET=winpcap).
@@ -192,47 +198,47 @@ The original security mechanism of IEEE 802.11 standard was not
 designed to be strong and has proven to be insufficient for most
 networks that require some kind of security. Task group I (Security)
 of IEEE 802.11 working group (http://www.ieee802.org/11/) has worked
-to address the flaws of the base standard and has in practice
-completed its work in May 2004. The IEEE 802.11i amendment to the IEEE
-802.11 standard was approved in June 2004 and published in July 2004.
+to address(解决) the flaws(缺陷) of the base standard and has in practice
+completed its work in May 2004. The IEEE 802.11i amendment 修正案 to the IEEE
+802.11 standard was approved 批准 in June 2004 and published in July 2004.
 
-Wi-Fi Alliance (http://www.wi-fi.org/) used a draft version of the
+Wi-Fi Alliance 联盟 (http://www.wi-fi.org/) used a draft 草案 version of the
 IEEE 802.11i work (draft 3.0) to define a subset of the security
 enhancements that can be implemented with existing wlan hardware. This
 is called Wi-Fi Protected Access<TM> (WPA). This has now become a
-mandatory component of interoperability testing and certification done
+mandatory 强制性 component of interoperability 互操作性 testing and certification done
 by Wi-Fi Alliance. Wi-Fi provides information about WPA at its web
 site (http://www.wi-fi.org/OpenSection/protected_access.asp).
 
 IEEE 802.11 standard defined wired equivalent privacy (WEP) algorithm
 for protecting wireless networks. WEP uses RC4 with 40-bit keys,
-24-bit initialization vector (IV), and CRC32 to protect against packet
-forgery. All these choices have proven to be insufficient: key space is
+24-bit initialization vector (IV), and CRC32 to protect against 防范 packet
+forgery 包伪造. All these choices have proven to be insufficient: key space is
 too small against current attacks, RC4 key scheduling is insufficient
-(beginning of the pseudorandom stream should be skipped), IV space is
+(beginning of the pseudorandom 伪随机 stream should be skipped), IV space is
 too small and IV reuse makes attacks easier, there is no replay
 protection, and non-keyed authentication does not protect against bit
 flipping packet data.
 
-WPA is an intermediate solution for the security issues. It uses
+WPA is an intermediate 中间 solution for the security issues. It uses
 Temporal Key Integrity Protocol (TKIP) to replace WEP. TKIP is a
-compromise on strong security and possibility to use existing
+compromise 妥协 on strong security and possibility to use existing
 hardware. It still uses RC4 for the encryption like WEP, but with
-per-packet RC4 keys. In addition, it implements replay protection,
-keyed packet authentication mechanism (Michael MIC).
+per-packet 每包 RC4 keys. In addition, it implements replay protection,
+keyed packet authentication mechanism (Michael MIC) 密钥包认证机制.
 
 Keys can be managed using two different mechanisms. WPA can either use
 an external authentication server (e.g., RADIUS) and EAP just like
 IEEE 802.1X is using or pre-shared keys without need for additional
 servers. Wi-Fi calls these "WPA-Enterprise" and "WPA-Personal",
-respectively. Both mechanisms will generate a master session key for
+respectively 分别称为. Both mechanisms will generate a master session key for
 the Authenticator (AP) and Supplicant (client station).
 
 WPA implements a new key handshake (4-Way Handshake and Group Key
 Handshake) for generating and exchanging data encryption keys between
 the Authenticator and Supplicant. This handshake is also used to
 verify that both Authenticator and Supplicant know the master session
-key. These handshakes are identical regardless of the selected key
+key. These handshakes are identical 相同的 regardless of the selected key
 management mechanism (only the method for generating master session
 key changes).
 
@@ -246,7 +252,7 @@ finished (May 2004) and this amendment to IEEE 802.11 was approved in
 June 2004. Wi-Fi Alliance is using the final IEEE 802.11i as a new
 version of WPA called WPA2. This includes, e.g., support for more
 robust encryption algorithm (CCMP: AES in Counter mode with CBC-MAC)
-to replace TKIP and optimizations for handoff (reduced number of
+to replace TKIP and optimizations for handoff 优化握手信息 (reduced number of
 messages in initial key handshake, pre-authentication, and PMKSA caching).
 
 
@@ -256,7 +262,7 @@ wpa_supplicant
 
 wpa_supplicant is an implementation of the WPA Supplicant component,
 i.e., the part that runs in the client stations. It implements WPA key
-negotiation with a WPA Authenticator and EAP authentication with
+negotiation 协商 with a WPA Authenticator and EAP authentication with
 Authentication Server. In addition, it controls the roaming and IEEE
 802.11 authentication/association of the wlan driver.
 
@@ -271,7 +277,7 @@ Following steps are used when associating with an AP using WPA:
 - wpa_supplicant selects a BSS based on its configuration
 - wpa_supplicant requests the kernel driver to associate with the chosen
   BSS
-- If WPA-EAP: integrated IEEE 802.1X Supplicant completes EAP
+- If WPA-EAP: integrated 集成 IEEE 802.1X Supplicant completes EAP
   authentication with the authentication server (proxied by the
   Authenticator in the AP)
 - If WPA-EAP: master key is received from the IEEE 802.1X Supplicant
@@ -285,6 +291,17 @@ Following steps are used when associating with an AP using WPA:
 
 Building and installing
 -----------------------
+1、根目录下创建配置文件 .config，参考 defconfig，配置文件中注意的配置有
+驱动接口的选择，使用那种认证方法
+2、编译安装
+# build wpa_supplicant and wpa_cli
+make
+# install binaries (this may need root privileges)
+cp wpa_cli wpa_supplicant /usr/local/bin
+3、创建一个网络配置文件 /etc/wpa_supplicant.conf，可以通过
+wpa_supplicant -iwlan0 -c/etc/wpa_supplicant.conf -d 来验证配置文件是否
+能够正常工作
+
 
 In order to be able to build wpa_supplicant, you will first need to
 select which parts of it will be included. This is done by creating a
@@ -462,6 +479,7 @@ If the specific driver wrapper is not known beforehand, it is possible
 to specify multiple comma separated driver wrappers on the command
 line. wpa_supplicant will use the first driver wrapper that is able to
 initialize the interface.
+可以指定多个驱动程序，wpa 使用能够初始化wlan0 接口的第一个驱动程序
 
 wpa_supplicant -Dnl80211,wext -c/etc/wpa_supplicant.conf -iwlan0
 
@@ -471,6 +489,7 @@ running one process for each interface separately or by running just
 one process and list of options at command line. Each interface is
 separated with -N argument. As an example, following command would
 start wpa_supplicant for two interfaces:
+wpa 可以为控制多个接口，为每个接口运行一个进程或者运行一个进程和命令行选项列表
 
 wpa_supplicant \
 	-c wpa1.conf -i wlan0 -D nl80211 -N \
@@ -481,12 +500,15 @@ If the interfaces on which wpa_supplicant is to run are not known or do
 not exist, wpa_supplicant can match an interface when it arrives. Each
 matched interface is separated with -M argument and the -i argument now
 allows for pattern matching.
+如果wpa 要运行的接口未知或者不存在，wpa 可以运行匹配的接口，接口使用 -M 来分隔
+-i 支持模式匹配
 
 As an example, the following command would start wpa_supplicant for a
 specific wired interface called lan0, any interface starting with wlan
 and lastly any other interface. Each match has its own configuration
 file, and for the wired interface a specific driver has also been given.
-
+下面的命令将为称为 lan0 的有线接口，wlan 开始的接口和其他任何接口开启 wpa
+并单独指定配置文件。
 wpa_supplicant \
 	-M -c wpa_wired.conf -ilan0 -D wired \
 	-M -c wpa1.conf -iwlan* \
@@ -496,7 +518,7 @@ wpa_supplicant \
 If the interface is added in a Linux bridge (e.g., br0), the bridge
 interface needs to be configured to wpa_supplicant in addition to the
 main interface:
-
+如果接口添加入 linux 网桥中，则除主接口之外，网桥接口需要配置到 wpa 中
 wpa_supplicant -cw.conf -Dnl80211 -iwlan0 -bbr0
 
 
@@ -511,6 +533,8 @@ information about the configuration format and supported fields.
 Changes to configuration file can be reloaded be sending SIGHUP signal
 to wpa_supplicant ('killall -HUP wpa_supplicant'). Similarly,
 reloading can be triggered with 'wpa_cli reconfigure' command.
+配置文件改变后可以通过：
+killall -HUP wpa_supplicant 或者 wpa_cli reconfigure 来使其生效
 
 Configuration file can include one or more network blocks, e.g., one
 for each used SSID. wpa_supplicant will automatically select the best
@@ -654,11 +678,11 @@ network={
 Certificates
 ------------
 
-Some EAP authentication methods require use of certificates. EAP-TLS
+Some EAP authentication methods require use of certificates 证书. EAP-TLS
 uses both server side and client certificates whereas EAP-PEAP and
 EAP-TTLS only require the server side certificate. When client
 certificate is used, a matching private key file has to also be
-included in configuration. If the private key uses a passphrase, this
+included in configuration. If the private key uses a passphrase 密码短语, this
 has to be configured in wpa_supplicant.conf ("private_key_passwd").
 
 wpa_supplicant supports X.509 certificates in PEM and DER
